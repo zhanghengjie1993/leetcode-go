@@ -1,4 +1,4 @@
-package leetcode
+package problem0006
 
 import "bytes"
 
