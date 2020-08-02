@@ -1,22 +1,16 @@
 package main
 
 import (
-	"strconv"
-	"strings"
+	"fmt"
+	"unicode/utf8"
 )
 
-const intmax = 2 ^ 31 - 1
-const intmin = -2 ^ 31
-
-func myAtoi(str string) int {
-	str = strings.TrimSpace(str)
-	res, err := strconv.Atoi(str)
-	if err != nil {
-		return 0
-	}
-	return res
-}
-
 func main() {
+	s := "我是中国人"
+	for i, w := 0, 0; i < len(s); i += w {
+		runeValue, width := utf8.DecodeRuneInString(s[i:])
+		fmt.Printf("%#U starts at byte position %d\n", runeValue, i)
+		w = width
+	}
 
 }
