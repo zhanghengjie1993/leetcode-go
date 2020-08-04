@@ -14,6 +14,9 @@ func strStr(haystack string, needle string) int {
 	flag := true
 	n, m := len(haystack), len(needle)
 	for i := 0; i < n; i++ {
+		if n-i < m {
+			return -1
+		}
 		for j := 0; j < m; j++ {
 			if haystack[i+j] != needle[j] {
 				flag = false
