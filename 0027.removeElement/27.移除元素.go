@@ -1,4 +1,5 @@
 package problem0027
+
 /*
  * @lc app=leetcode.cn id=27 lang=golang
  *
@@ -7,7 +8,14 @@ package problem0027
 
 // @lc code=start
 func removeElement(nums []int, val int) int {
-	return 0
+	n := 0
+	for index := 0; index < len(nums); index++ {
+		if nums[index] != val {
+			nums[n] = nums[index]
+			n++
+		}
+	}
+	return n
 }
-// @lc code=end
 
+// @lc code=end
