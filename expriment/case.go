@@ -1,33 +1,39 @@
 package main
 
-<<<<<<< HEAD
-import (
-	"fmt"
-	"unicode/utf8"
-)
-
-func main() {
-	s := "我是中国人"
-	for i, w := 0, 0; i < len(s); i += w {
-		runeValue, width := utf8.DecodeRuneInString(s[i:])
-		fmt.Printf("%#U starts at byte position %d\n", runeValue, i)
-		w = width
-	}
-
-=======
-func removeDuplicates(nums []int) int {
-	left, right, size := 0, 1, len(nums)
-	for ; right < size; right++ {
-		if nums[right] != nums[left] {
-			left++
-			nums[left] = nums[right]
-		}
-	}
-	return left + 1
+// ListNode is
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
+func partition(head *ListNode, x int) *ListNode {
+	beforeHead := new(ListNode)
+	afterHead := new(ListNode)
+	before := beforeHead
+	after := afterHead
+	for head != nil {
+		if head.Val < x {
+			before.Next = head
+			before = before.Next
+		} else {
+			after.Next = head
+			after = after.Next
+		}
+		head = head.Next
+	}
+	before.Next = afterHead.Next
+	after.Next = nil
+	return beforeHead.Next
+}
 func main() {
-	nums := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
-	removeDuplicates(nums)
->>>>>>> d11fcca760bba99ecf1a8dd4934927b287a13b4e
+	first := new(ListNode)
+	second := new(ListNode)
+	tail := new(ListNode)
+	first.Val = 4
+	second.Val = 3
+	tail.Val = 2
+	first.Next = second
+	second.Next = tail
+	tail.Next = nil
+	partition(first, 3)
 }
