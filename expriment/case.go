@@ -1,39 +1,20 @@
 package main
 
-// ListNode is
-type ListNode struct {
-	Val  int
-	Next *ListNode
+func climbStairs(n int) int {
+	if n == 0 {
+		return 1
+	} else if n == 1 {
+		return 2
+	}
+	var dp = make([]int, n+1)
+	dp[0] = 1
+	dp[1] = 2
+	for i := 2; i <= n; i++ {
+		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
 }
 
-func partition(head *ListNode, x int) *ListNode {
-	beforeHead := new(ListNode)
-	afterHead := new(ListNode)
-	before := beforeHead
-	after := afterHead
-	for head != nil {
-		if head.Val < x {
-			before.Next = head
-			before = before.Next
-		} else {
-			after.Next = head
-			after = after.Next
-		}
-		head = head.Next
-	}
-	before.Next = afterHead.Next
-	after.Next = nil
-	return beforeHead.Next
-}
 func main() {
-	first := new(ListNode)
-	second := new(ListNode)
-	tail := new(ListNode)
-	first.Val = 4
-	second.Val = 3
-	tail.Val = 2
-	first.Next = second
-	second.Next = tail
-	tail.Next = nil
-	partition(first, 3)
+	climbStairs(2)
 }
