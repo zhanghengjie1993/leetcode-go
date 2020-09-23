@@ -1,28 +1,34 @@
 package main
 
-func minimumTotal(triangle [][]int) int {
-	n := len(triangle)
-	j := 0
-	var dp = make([]int, n)
-	max := 0
-	dp[0] = triangle[0][0]
-	for i := 1; i < n; i++ {
-		if triangle[i][j] < triangle[i][j+1] && j+1 < len(triangle[i]) {
-			max = triangle[i][j+1]
-			j = j + 1
-		} else {
-			max = triangle[i][j]
+func uniquePaths(m int, n int) int {
+	// var rectangle = make([][]int, m)
+	// for i := 0; i < m; i++ {
+	// 	rectangle[i] = make([]int, n)
+	// 	for j := 0; j < n; j++ {
+	// 		if i == 0 || j == 0 {
+	// 			rectangle[i][j] = 1
+	// 		} else {
+	// 			rectangle[i][j] = rectangle[i-1][j] + rectangle[i][j-1]
+	// 		}
+	// 	}
+	// }
+	// return rectangle[m-1][n-1]
+	dp := make([]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = 1
+	}
+	for i := 1; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if j == 0 {
+				dp[i] = 1
+			} else {
+				dp[i] = dp[i] + dp[i-1]
+			}
 		}
-		dp[i] = dp[i-1] + max
 	}
 	return dp[n-1]
 }
 
 func main() {
-	var triangle = make([][]int, 4)
-	triangle[0] = []int{2}
-	triangle[1] = []int{3, 4}
-	triangle[2] = []int{6, 5, 7}
-	triangle[3] = []int{4, 1, 8, 3}
-	minimumTotal(triangle)
+	uniquePaths(3, 2)
 }
