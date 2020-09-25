@@ -1,5 +1,12 @@
-package main
+package problem0300
 
+/*
+ * @lc app=leetcode.cn id=300 lang=golang
+ *
+ * [300] 最长上升子序列
+ */
+
+// @lc code=start
 func lengthOfLIS(nums []int) int {
 	var length = 1
 	var ans = 1
@@ -23,7 +30,4 @@ func max(a int, b int) int {
 	return b
 }
 
-func main() {
-	nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
-	lengthOfLIS(nums)
-}
+// @lc code=end
