@@ -1,19 +1,22 @@
 package main
 
+import "fmt"
+
 func lengthOfLIS(nums []int) int {
-	var length = 1
-	var ans = 1
-	for i := 0; i < len(nums); i++ {
-		tmp := nums[i]
-		for j := i + 1; j < len(nums); j++ {
-			if nums[j] > tmp {
-				length++
-				tmp = nums[j]
+	dp := make([]int, len(nums))
+	dp[0] = 1
+	tmp := 1
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				tmp = dp[j] + 1
+			} else {
+				tmp = 1
 			}
+			dp[i] = max(dp[i], tmp)
 		}
-		ans = max(ans, length)
 	}
-	return ans
+	return dp[len(nums)-1]
 }
 
 func max(a int, b int) int {
@@ -24,6 +27,7 @@ func max(a int, b int) int {
 }
 
 func main() {
-	nums := []int{10, 9, 2, 5, 3, 7, 101, 18}
-	lengthOfLIS(nums)
+	nums := []int{1, 3, 6, 7, 9, 4, 10, 5, 6}
+	ans := lengthOfLIS(nums)
+	fmt.Println(ans)
 }

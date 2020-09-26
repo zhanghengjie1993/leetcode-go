@@ -8,17 +8,21 @@ package problem0300
 
 // @lc code=start
 func lengthOfLIS(nums []int) int {
-	var length = 1
-	var ans = 1
-	for i := 0; i < len(nums); i++ {
-		tmp := nums[i]
-		for j := i + 1; j < len(nums); j++ {
-			if nums[j] > tmp {
-				length++
-				tmp = nums[j]
+	if len(nums) == 0 {
+		return 0
+	}
+	dp := make([]int, len(nums))
+	dp[0] = 1
+	ans := 1
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				dp[i] = max(dp[j]+1, dp[i])
+			} else {
+				dp[i] = max(dp[i], 1)
 			}
 		}
-		ans = max(ans, length)
+		ans = max(ans, dp[i])
 	}
 	return ans
 }
