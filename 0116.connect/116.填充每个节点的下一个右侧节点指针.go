@@ -1,4 +1,12 @@
-package main
+package problem0116
+
+/*
+ * @lc app=leetcode.cn id=116 lang=golang
+ *
+ * [116] 填充每个节点的下一个右侧节点指针
+ */
+
+// @lc code=start
 
 // Node is a data
 type Node struct {
@@ -33,9 +41,4 @@ func connect(root *Node) *Node {
 	return root
 }
 
-func main() {
-	var right *Node = &Node{3, nil, nil, nil}
-	var left *Node = &Node{2, nil, nil, nil}
-	var root *Node = &Node{1, left, right, nil}
-	connect(root)
-}
+// @lc code=end

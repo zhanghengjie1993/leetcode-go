@@ -25,6 +25,7 @@ func lengthOfLIS(nums []int) int {
 		ans = max(ans, dp[i])
 	}
 	return ans
+
 }
 
 func max(a int, b int) int {
