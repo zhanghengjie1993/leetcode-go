@@ -7,21 +7,27 @@ import (
 
 type RandomizedCollection struct {
 	hmap map[int][]int
+	list []int
 }
 
 /** Initialize your data structure here. */
 func Constructor() RandomizedCollection {
-	var rc *RandomizedCollection = new(RandomizedCollection)
-	rc.hmap = make(map[int][]int)
-	return *rc
+	return RandomizedCollection{
+		hmap: make(map[int][]int),
+		list: []int{},
+	}
 }
 
 /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
 func (this *RandomizedCollection) Insert(val int) bool {
-	arr := this.hmap[val]
-	arr = append(arr, val)
-	this.hmap[val] = arr
-	return true
+	flag := true
+	this.list = append(this.list, val)
+	index := len(this.list) - 1
+	if _, ok := this.hmap[val]; ok {
+		flag = false
+	}
+	this.hmap[val] = append(this.hmap[val], index)
+	return flag
 }
 
 /** Removes a value from the collection. Returns true if the collection contained the specified element. */
@@ -29,35 +35,42 @@ func (this *RandomizedCollection) Remove(val int) bool {
 	if _, ok := this.hmap[val]; !ok {
 		return false
 	}
+	length := len(this.list)
+	remove := this.hmap[val][0]
+	this.list[remove] = this.list[length-1]
 	if len(this.hmap[val]) == 1 {
 		delete(this.hmap, val)
-		return true
+	} else {
+		this.hmap[val] = this.hmap[val][1:]
 	}
-	arr := this.hmap[val]
-	arr = arr[:len(arr)-1]
-	this.hmap[val] = arr
+	last := this.list[length-1]
+	if _, ok := this.hmap[last]; ok {
+		this.hmap[last] = append(this.hmap[last], remove)
+	} else {
+		this.hmap[last] = []int{remove}
+	}
+	for i, v := range this.hmap[last] {
+		if v == length-1 {
+			if len(this.hmap[last]) == {
+				
+			}
+		}
+	}
 	return true
 }
 
 /** Get a random element from the collection. */
 func (this *RandomizedCollection) GetRandom() int {
-	rand.Seed(1)
-	list := []int{}
-	for _, v := range this.hmap {
-		list = append(list, v...)
-	}
-	index := rand.Intn(len(list))
-	return list[index-1]
+	return this.list[rand.Intn(len(this.list))]
 }
 
 func main() {
 	obj := Constructor()
 	obj.Insert(1)
-	obj.Insert(10)
-	obj.Insert(10)
-	obj.Insert(100)
-	for i := 0; i < 20; i++ {
-		fmt.Println(obj.GetRandom())
-	}
-	// obj.GetRandom()
+	obj.Insert(1)
+	obj.Remove(1)
+	// obj.Insert(2)
+	// obj.Remove(1)
+
+	fmt.Println(obj.GetRandom())
 }

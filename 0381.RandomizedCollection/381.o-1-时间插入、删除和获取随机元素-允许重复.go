@@ -11,24 +11,26 @@ import "math/rand"
 // @lc code=start
 type RandomizedCollection struct {
 	hmap map[int][]int
+	list []int
 }
 
 /** Initialize your data structure here. */
 func Constructor() RandomizedCollection {
-	var rc *RandomizedCollection = new(RandomizedCollection)
-	rc.hmap = make(map[int][]int)
-	return *rc
+	return RandomizedCollection{
+		hmap: make(map[int][]int),
+		list: []int{},
+	}
 }
 
 /** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
 func (this *RandomizedCollection) Insert(val int) bool {
 	flag := true
+	this.list = append(this.list, val)
+	index := len(this.list) - 1
 	if _, ok := this.hmap[val]; ok {
 		flag = false
 	}
-	arr := this.hmap[val]
-	arr = append(arr, val)
-	this.hmap[val] = arr
+	this.hmap[val] = append(this.hmap[val], index)
 	return flag
 }
 
@@ -37,25 +39,35 @@ func (this *RandomizedCollection) Remove(val int) bool {
 	if _, ok := this.hmap[val]; !ok {
 		return false
 	}
-	if len(this.hmap[val]) == 1 {
+	hlength := len(this.hmap[val])
+	length := len(this.list)
+	index := this.hmap[val][hlength-1]
+	this.list[index] = this.list[length-1]
+	this.list = this.list[:length-1]
+	if hlength == 1 {
 		delete(this.hmap, val)
-		return true
+	} else {
+		this.hmap[val] = this.hmap[val][:hlength-1]
 	}
-	arr := this.hmap[val]
-	arr = arr[:len(arr)-1]
-	this.hmap[val] = arr
+	list := this.hmap[this.list[index]]
+	if len(list) == 1 {
+		list[0] = index
+	} else {
+		for i, v := range list {
+			if v == length-1 {
+				list = append(list[:i], list[i+1:]...)
+			}
+		}
+		list = append(list, index)
+	}
+	this.hmap[this.list[index]] = list
+
 	return true
 }
 
 /** Get a random element from the collection. */
 func (this *RandomizedCollection) GetRandom() int {
-	rand.Seed(1)
-	list := []int{}
-	for _, v := range this.hmap {
-		list = append(list, v...)
-	}
-	index := rand.Intn(len(list))
-	return list[index]
+	return this.list[rand.Intn(len(this.list))]
 }
 
 /**
