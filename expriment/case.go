@@ -1,41 +1,63 @@
 package main
 
-// Node is a data
-type Node struct {
-	Val   int
-	Left  *Node
-	Right *Node
-	Next  *Node
+import (
+	"fmt"
+	"math/rand"
+)
+
+type RandomizedCollection struct {
+	hmap map[int][]int
 }
 
-func connect(root *Node) *Node {
-	if root == nil {
-		return root
+/** Initialize your data structure here. */
+func Constructor() RandomizedCollection {
+	var rc *RandomizedCollection = new(RandomizedCollection)
+	rc.hmap = make(map[int][]int)
+	return *rc
+}
+
+/** Inserts a value to the collection. Returns true if the collection did not already contain the specified element. */
+func (this *RandomizedCollection) Insert(val int) bool {
+	arr := this.hmap[val]
+	arr = append(arr, val)
+	this.hmap[val] = arr
+	return true
+}
+
+/** Removes a value from the collection. Returns true if the collection contained the specified element. */
+func (this *RandomizedCollection) Remove(val int) bool {
+	if _, ok := this.hmap[val]; !ok {
+		return false
 	}
-	var queue []*Node
-	queue = append(queue, root)
-	for len(queue) > 0 {
-		size := len(queue)
-		for i := 0; i < size; i++ {
-			node := queue[0]
-			queue = queue[1:]
-			if i < size-1 {
-				node.Next = queue[0]
-			}
-			if node.Left != nil {
-				queue = append(queue, node.Left)
-			}
-			if node.Right != nil {
-				queue = append(queue, node.Right)
-			}
-		}
+	if len(this.hmap[val]) == 1 {
+		delete(this.hmap, val)
+		return true
 	}
-	return root
+	arr := this.hmap[val]
+	arr = arr[:len(arr)-1]
+	this.hmap[val] = arr
+	return true
+}
+
+/** Get a random element from the collection. */
+func (this *RandomizedCollection) GetRandom() int {
+	rand.Seed(1)
+	list := []int{}
+	for _, v := range this.hmap {
+		list = append(list, v...)
+	}
+	index := rand.Intn(len(list))
+	return list[index-1]
 }
 
 func main() {
-	var right *Node = &Node{3, nil, nil, nil}
-	var left *Node = &Node{2, nil, nil, nil}
-	var root *Node = &Node{1, left, right, nil}
-	connect(root)
+	obj := Constructor()
+	obj.Insert(1)
+	obj.Insert(10)
+	obj.Insert(10)
+	obj.Insert(100)
+	for i := 0; i < 20; i++ {
+		fmt.Println(obj.GetRandom())
+	}
+	// obj.GetRandom()
 }
