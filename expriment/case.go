@@ -49,13 +49,16 @@ func (this *RandomizedCollection) Remove(val int) bool {
 	} else {
 		this.hmap[last] = []int{remove}
 	}
+	if remove == length-1 {
+		delete(this.hmap, val)
+		return true
+	}
 	for i, v := range this.hmap[last] {
 		if v == length-1 {
-			if len(this.hmap[last]) == {
-				
-			}
+			this.hmap[last] = append(this.hmap[last][0:i], this.hmap[last][i+1:]...)
 		}
 	}
+	this.list = this.list[:length-1]
 	return true
 }
 
@@ -66,11 +69,15 @@ func (this *RandomizedCollection) GetRandom() int {
 
 func main() {
 	obj := Constructor()
-	obj.Insert(1)
-	obj.Insert(1)
-	obj.Remove(1)
-	// obj.Insert(2)
-	// obj.Remove(1)
+	obj.Insert(4)
+	obj.Insert(3)
+	obj.Insert(4)
+	obj.Insert(2)
+	obj.Insert(4)
+	obj.Remove(4)
+	obj.Remove(3)
+	obj.Remove(4)
+	obj.Remove(4)
 
 	fmt.Println(obj.GetRandom())
 }

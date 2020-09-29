@@ -39,29 +39,30 @@ func (this *RandomizedCollection) Remove(val int) bool {
 	if _, ok := this.hmap[val]; !ok {
 		return false
 	}
-	hlength := len(this.hmap[val])
 	length := len(this.list)
-	index := this.hmap[val][hlength-1]
-	this.list[index] = this.list[length-1]
-	this.list = this.list[:length-1]
-	if hlength == 1 {
+	remove := this.hmap[val][0]
+	this.list[remove] = this.list[length-1]
+	if len(this.hmap[val]) == 1 {
 		delete(this.hmap, val)
 	} else {
-		this.hmap[val] = this.hmap[val][:hlength-1]
+		this.hmap[val] = this.hmap[val][1:]
 	}
-	list := this.hmap[this.list[index]]
-	if len(list) == 1 {
-		list[0] = index
+	last := this.list[length-1]
+	if _, ok := this.hmap[last]; ok {
+		this.hmap[last] = append(this.hmap[last], remove)
 	} else {
-		for i, v := range list {
-			if v == length-1 {
-				list = append(list[:i], list[i+1:]...)
-			}
-		}
-		list = append(list, index)
+		this.hmap[last] = []int{remove}
 	}
-	this.hmap[this.list[index]] = list
-
+	if remove == length-1 {
+		delete(this.hmap, val)
+		return true
+	}
+	for i, v := range this.hmap[last] {
+		if v == length-1 {
+			this.hmap[last] = append(this.hmap[last][0:i], this.hmap[last][i+1:]...)
+		}
+	}
+	this.list = this.list[:length-1]
 	return true
 }
 
