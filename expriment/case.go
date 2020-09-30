@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 )
 
 type RandomizedCollection struct {
@@ -46,18 +47,16 @@ func (this *RandomizedCollection) Remove(val int) bool {
 	last := this.list[length-1]
 	if _, ok := this.hmap[last]; ok {
 		this.hmap[last] = append(this.hmap[last], remove)
+		sort.Ints(this.hmap[last])
 	} else {
 		this.hmap[last] = []int{remove}
 	}
 	if remove == length-1 {
 		delete(this.hmap, val)
+		this.list = this.list[:length-1]
 		return true
 	}
-	for i, v := range this.hmap[last] {
-		if v == length-1 {
-			this.hmap[last] = append(this.hmap[last][0:i], this.hmap[last][i+1:]...)
-		}
-	}
+	this.hmap[last] = this.hmap[last][:len(this.hmap[last])-1]
 	this.list = this.list[:length-1]
 	return true
 }
@@ -69,15 +68,16 @@ func (this *RandomizedCollection) GetRandom() int {
 
 func main() {
 	obj := Constructor()
-	obj.Insert(4)
-	obj.Insert(3)
-	obj.Insert(4)
+	obj.Insert(1)
+	obj.Insert(1)
 	obj.Insert(2)
-	obj.Insert(4)
-	obj.Remove(4)
-	obj.Remove(3)
-	obj.Remove(4)
-	obj.Remove(4)
+	obj.Insert(1)
+	obj.Insert(2)
+	obj.Insert(2)
+	obj.Remove(1)
+	obj.Remove(2)
+	obj.Remove(2)
+	obj.Remove(2)
 
 	fmt.Println(obj.GetRandom())
 }
