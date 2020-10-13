@@ -25,7 +25,7 @@ func Constructor() MinStack {
 func (this *MinStack) Push(x int) {
 	this.stack = append(this.stack, x)
 	n := len(this.minStack)
-	if this.minStack[n-1] > x {
+	if this.minStack[n-1] >= x {
 		this.minStack = append(this.minStack, x)
 	}
 }
