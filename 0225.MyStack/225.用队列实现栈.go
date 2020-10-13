@@ -1,7 +1,12 @@
-package main
+package problem0225
 
-import "fmt"
+/*
+ * @lc app=leetcode.cn id=225 lang=golang
+ *
+ * [225] 用队列实现栈
+ */
 
+// @lc code=start
 type MyStack struct {
 	arr []int
 }
@@ -32,13 +37,18 @@ func (this *MyStack) Top() int {
 
 /** Returns whether the stack is empty. */
 func (this *MyStack) Empty() bool {
-	fmt.Println(len(this.arr))
 	if len(this.arr) == 0 {
 		return true
 	}
 	return false
 }
-func main() {
-	obj := Constructor()
-	fmt.Println(obj.Empty())
-}
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * obj := Constructor();
+ * obj.Push(x);
+ * param_2 := obj.Pop();
+ * param_3 := obj.Top();
+ * param_4 := obj.Empty();
+ */
+// @lc code=end
