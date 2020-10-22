@@ -19,32 +19,26 @@ func partitionLabels(S string) []int {
 		if index == 0 {
 			ans = append(ans, 1)
 		} else {
-			flag, postion := hasNext(S, i+1, index)
-			if flag {
-				i = 
-			}
+			postion := hasNext(S, i+1, index)
+			ans = append(ans, postion-i+1)
+			i = postion
 		}
 	}
 	return ans
 }
 
-func hasNext(S string, left int, right int) (bool, int) {
-	var maxIndex int = 0
+func hasNext(S string, left int, right int) int {
+	var maxIndex int = right
 	for i := left; i < right; i++ {
+		index := 0
 		for j := i + 1; j < len(S); j++ {
-			index := 0
 			if S[i] == S[j] {
 				index = j
 			}
-			if index > right {
-				maxIndex = max(index, maxIndex)
-			}
+			maxIndex = max(index, maxIndex)
 		}
 	}
-	if maxIndex != 0 {
-		return true, maxIndex
-	}
-	return false, maxIndex
+	return maxIndex
 }
 
 func max(a int, b int) int {
