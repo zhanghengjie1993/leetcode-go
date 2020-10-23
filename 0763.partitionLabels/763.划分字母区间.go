@@ -38,6 +38,9 @@ func hasNext(S string, left int, right int) int {
 			maxIndex = max(index, maxIndex)
 		}
 	}
+	if maxIndex > right {
+		maxIndex = hasNext(S, right, maxIndex)
+	}
 	return maxIndex
 }
 

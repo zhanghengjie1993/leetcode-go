@@ -33,6 +33,9 @@ func hasNext(S string, left int, right int) int {
 			maxIndex = max(index, maxIndex)
 		}
 	}
+	if maxIndex > right {
+		maxIndex = hasNext(S, right, maxIndex)
+	}
 	return maxIndex
 }
 
@@ -44,7 +47,7 @@ func max(a int, b int) int {
 }
 
 func main() {
-	S := "ababcbacadefegdehijhklij"
+	S := "qiejxqfnqceocmy"
 	ans := partitionLabels(S)
 	fmt.Println(ans)
 }
