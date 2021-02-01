@@ -21,12 +21,13 @@ func divide(dividend int, divisor int) int {
 		return formatAns(dividend * factor)
 	}
 	for i := getLength(dividend); i >= 0; i-- {
-		if dividend>>i == divisor {
-			ans = (ans<<1 | 1) << i
+		flag = 0
+		if dividend == 0 {
+			ans = (ans << 1) << i
 			return formatAns(ans * factor)
 		}
 
-		if dividend>>i > divisor {
+		if dividend>>i >= divisor {
 			flag = 1
 			high := (dividend>>i - divisor) << i
 			low := getLowBit(dividend, i)
