@@ -1,10 +1,14 @@
-package main
+package divide
 
-import (
-	"fmt"
-	"math"
-)
+import "math"
 
+/*
+ * @lc app=leetcode.cn id=29 lang=golang
+ *
+ * [29] 两数相除
+ */
+
+// @lc code=start
 func divide(dividend int, divisor int) int {
 	ans, flag := 0, 0
 	factor := 1
@@ -12,10 +16,10 @@ func divide(dividend int, divisor int) int {
 		factor = -1
 	}
 	dividend = abs(dividend)
+	divisor = abs(divisor)
 	if dividend > math.MaxInt32 {
 		dividend = math.MaxInt32
 	}
-	divisor = abs(divisor)
 	if divisor == 1 {
 		return dividend * factor
 	}
@@ -63,7 +67,4 @@ func abs(num int) int {
 	return num
 }
 
-func main() {
-	ans := divide(-2147483648, -1)
-	fmt.Println(ans)
-}
+// @lc code=end
