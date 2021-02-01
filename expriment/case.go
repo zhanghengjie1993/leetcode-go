@@ -12,17 +12,15 @@ func divide(dividend int, divisor int) int {
 		factor = -1
 	}
 	dividend = abs(dividend)
-	if dividend > math.MaxInt32 {
-		dividend = math.MaxInt32
-	}
+
 	divisor = abs(divisor)
 	if divisor == 1 {
-		return dividend * factor
+		return formatAns(dividend * factor)
 	}
 	for i := getLength(dividend); i >= 0; i-- {
 		if dividend>>i == divisor {
 			ans = (ans<<1 | 1) << i
-			return ans * factor
+			return formatAns(ans * factor)
 		}
 
 		if dividend>>i > divisor {
@@ -33,7 +31,7 @@ func divide(dividend int, divisor int) int {
 		}
 		ans = ans<<1 | flag
 	}
-	return ans * factor
+	return formatAns(ans * factor)
 }
 
 func getLowBit(num int, n int) int {
@@ -63,7 +61,14 @@ func abs(num int) int {
 	return num
 }
 
+func formatAns(num int) int {
+	if num > math.MaxInt32 {
+		return math.MaxInt32
+	}
+	return num
+}
+
 func main() {
-	ans := divide(-2147483648, -1)
+	ans := divide(-2147483648, 1)
 	fmt.Println(ans)
 }
