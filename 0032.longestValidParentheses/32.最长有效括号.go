@@ -1,7 +1,12 @@
-package main
+package problem0032
 
-import "fmt"
+/*
+ * @lc app=leetcode.cn id=32 lang=golang
+ *
+ * [32] 最长有效括号
+ */
 
+// @lc code=start
 func longestValidParentheses(s string) int {
 	ans := 0
 	stack := []byte{}
@@ -20,8 +25,4 @@ func longestValidParentheses(s string) int {
 	return ans
 }
 
-func main() {
-	strs := ")()())"
-	ans := longestValidParentheses(strs)
-	fmt.Printf("ans is: %d", ans)
-}
+// @lc code=end
