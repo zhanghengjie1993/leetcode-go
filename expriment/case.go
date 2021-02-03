@@ -3,25 +3,33 @@ package main
 import "fmt"
 
 func longestValidParentheses(s string) int {
-	ans := 0
-	stack := []byte{}
+	maxAns := 0
+	stack := []int{}
+	stack = append(stack, -1)
 	for i := 0; i < len(s); i++ {
-
 		if s[i] == '(' {
-			stack = append(stack, s[i])
-		}
-
-		if len(stack) != 0 && stack[len(stack)-1] == '(' && s[i] == ')' {
-			ans = ans + 2
+			stack = append(stack, i)
+		} else {
 			stack = stack[:len(stack)-1]
+			if len(stack) == 0 {
+				stack = append(stack, i)
+			} else {
+				maxAns = max(maxAns, i-stack[len(stack)-1])
+			}
 		}
-
 	}
-	return ans
+	return maxAns
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
 }
 
 func main() {
-	strs := ")()())"
+	strs := "()()((((()))"
 	ans := longestValidParentheses(strs)
 	fmt.Printf("ans is: %d", ans)
 }
