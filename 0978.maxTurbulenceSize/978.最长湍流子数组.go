@@ -1,7 +1,12 @@
-package main
+package problem0978
 
-import "fmt"
+/*
+ * @lc app=leetcode.cn id=978 lang=golang
+ *
+ * [978] 最长湍流子数组
+ */
 
+// @lc code=start
 func maxTurbulenceSize(arr []int) int {
 	if len(arr) == 0 || len(arr) == 1 {
 		return len(arr)
@@ -15,16 +20,15 @@ func maxTurbulenceSize(arr []int) int {
 	ans := 0
 	dp := make([]int, len(arr))
 	dp[0] = 1
+	dp[1] = 2
 	if arr[1] == arr[0] {
 		dp[1] = 1
 	}
-	dp[1] = 2
 	for i := 2; i < len(arr); i++ {
-		if arr[i] == arr[i-1] {
-			dp[i] = 1
-		}
 		if (arr[i] > arr[i-1]) && (arr[i-2] > arr[i-1]) || (arr[i] < arr[i-1]) && (arr[i-2] < arr[i-1]) {
 			dp[i] = dp[i-1] + 1
+		} else if arr[i] == arr[i-1] {
+			dp[i] = 1
 		} else {
 			dp[i] = 2
 		}
@@ -39,8 +43,5 @@ func max(x, y int) int {
 	}
 	return y
 }
-func main() {
-	arr := []int{9, 4, 2, 10, 7, 8, 8, 1, 9}
-	ans := maxTurbulenceSize(arr)
-	fmt.Printf("the ans is:%d\n", ans)
-}
+
+// @lc code=end
