@@ -8,18 +8,23 @@ package problem0139
 
 // @lc code=start
 func wordBreak(s string, wordDict []string) bool {
-	dp := make([]int, 1)
-	for i := 0; i < len(s); i++ {
-		for _, v := range wordDict {
-			for j := range dp {
-				if s[dp[j]:i+1] == v {
-					dp = append(dp, i+1)
-				}
+	wordMap := make(map[string]bool)
+	for _, v := range wordDict {
+		wordMap[v] = true
+	}
+	dp := make([]bool, len(s)+1)
+	dp[0] = true
+
+	for i := 0; i <= len(s); i++ {
+		for j := 0; j <= i; j++ {
+			if dp[j] && wordMap[s[j:i]] {
+				dp[i] = true
+				break
 			}
 		}
 	}
 
-	return dp[len(dp)-1] == len(s)
+	return dp[len(s)]
 }
 
 // @lc code=end
