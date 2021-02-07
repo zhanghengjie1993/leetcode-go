@@ -1,10 +1,14 @@
-package main
+package problem0787
 
-import (
-	"fmt"
-	"math"
-)
+import "math"
 
+/*
+ * @lc app=leetcode.cn id=787 lang=golang
+ *
+ * [787] K 站中转内最便宜的航班
+ */
+
+// @lc code=start
 func findCheapestPrice(n int, flights [][]int, src int, dst int, K int) int {
 	ans := math.MaxInt32
 	hmap := make(map[int][][]int)
@@ -14,7 +18,7 @@ func findCheapestPrice(n int, flights [][]int, src int, dst int, K int) int {
 	}
 
 	queue := make([][]int, 0)
-	queue = append(queue, []int{src, 0})
+	queue = append(queue, hmap[src]...)
 
 	for K >= 0 {
 		l := len(queue)
@@ -48,18 +52,4 @@ func min(x, y int) int {
 	return x
 }
 
-func main() {
-
-	n := 4
-	edges := [][]int{
-		{0, 2, 1},
-		{0, 1, 1},
-		{1, 3, 1},
-		{2, 1, 1},
-	}
-	src := 0
-	dst := 3
-	k := 3
-	ans := findCheapestPrice(n, edges, src, dst, k)
-	fmt.Printf("the ans is:%d\n", ans)
-}
+// @lc code=end
