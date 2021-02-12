@@ -1,9 +1,12 @@
-package main
+package problem1641
 
-import (
-	"fmt"
-)
+/*
+ * @lc app=leetcode.cn id=1641 lang=golang
+ *
+ * [1641] 统计字典序元音字符串的数目
+ */
 
+// @lc code=start
 func countVowelStrings(n int) int {
 
 	dp := make([][]int, 5)
@@ -27,8 +30,5 @@ func countVowelStrings(n int) int {
 	ans := dp[0][n] + dp[1][n] + dp[2][n] + dp[3][n] + dp[4][n]
 	return ans
 }
-func main() {
 
-	ans := countVowelStrings(2)
-	fmt.Printf("the ans is:%d\n", ans)
-}
+// @lc code=end
