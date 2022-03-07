@@ -121,125 +121,31 @@ func exchange(nums []int) []int {
 	return nums
 }
 
-type Node struct {
-	Val    int
-	Next   *Node
-	Random *Node
+var methods int = 0
+
+// @lc code=start
+func findTargetSumWays(nums []int, target int) int {
+
+	dfs(nums, target, 0, 0, 1)
+	dfs(nums, target, 0, 0, -1)
+	return methods
 }
 
-var cachedNode map[*Node]*Node
-
-func deepCopy(node *Node) *Node {
-	if node == nil {
-		return nil
-	}
-	if n, has := cachedNode[node]; has {
-		return n
-	}
-	newNode := &Node{Val: node.Val}
-	cachedNode[node] = newNode
-	newNode.Next = deepCopy(node.Next)
-	newNode.Random = deepCopy(node.Random)
-	return newNode
-}
-
-func copyRandomList(head *Node) *Node {
-	cachedNode = map[*Node]*Node{}
-	return deepCopy(head)
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	pre := ListNode{}
-	temp := pre
-	for l1 != nil && l2 != nil {
-		if l1.Val <= l2.Val {
-			pre.Next = l1
-			l1 = l1.Next
-		} else {
-			pre.Next = l2
-			l2 = l2.Next
+func dfs(nums []int, target, i, sum, flag int) {
+	sum += nums[i] * flag
+	if i == len(nums)-1 {
+		if sum == target {
+			methods++
 		}
+		return
 	}
-	if l1 != nil {
-		pre.Next = l1
-	}
-	if l2 != nil {
-		pre.Next = l2
-	}
-	return temp.Next
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
-func min(x int, y int) int {
-	if x < y {
-		return x
-	} else {
-		return y
-	}
-}
-
-func uniquePaths(m int, n int) int {
-	var dp [][]int = make([][]int, m)
-	for i := 0; i < m; i++ {
-		dp[i] = make([]int, n)
-	}
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if i == 0 || j == 0 {
-				dp[i][j] = 1
-			} else {
-				dp[i][j] = dp[i-1][j] + dp[i][j-1]
-			}
-		}
-	}
-	return dp[m-1][n-1]
-}
-
-func uniquePathsWithObstacles(obstacleGrid [][]int) int {
-	m := len(obstacleGrid)
-	n := len(obstacleGrid[0])
-
-	var dp [][]int = make([][]int, m)
-	for i := 0; i < m; i++ {
-		dp[i] = make([]int, n)
-	}
-	flag1, flag2 := 0, 0
-	for i := 0; i < m; i++ {
-		if obstacleGrid[i][0] == 1 {
-			flag1 = 1
-		}
-		for j := 0; j < n; j++ {
-			if obstacleGrid[0][j] == 1 {
-				flag2 = 1
-			}
-			if i == 0 {
-				dp[0][j] = 1 ^ flag2
-			} else if j == 0 {
-				dp[i][0] = 1 ^ flag1
-			} else {
-				if obstacleGrid[i][j] == 1 {
-					dp[i][j] = 0
-				} else {
-					dp[i][j] = dp[i-1][j] + dp[i][j-1]
-				}
-			}
-		}
-	}
-	return dp[m-1][n-1]
+	i++
+	dfs(nums, target, i, sum, 1)
+	dfs(nums, target, i, sum, -1)
 }
 
 func main() {
 
-	ans := uniquePathsWithObstacles([][]int{{1, 0}})
+	ans := findTargetSumWays([]int{1, 1, 1, 1, 1}, 3)
 	fmt.Printf("%d", ans)
 }
