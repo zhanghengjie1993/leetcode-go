@@ -121,31 +121,24 @@ func exchange(nums []int) []int {
 	return nums
 }
 
-var methods int = 0
+func change(amount int, coins []int) int {
 
-// @lc code=start
-func findTargetSumWays(nums []int, target int) int {
+	dp := make([]int, amount+1)
 
-	dfs(nums, target, 0, 0, 1)
-	dfs(nums, target, 0, 0, -1)
-	return methods
-}
-
-func dfs(nums []int, target, i, sum, flag int) {
-	sum += nums[i] * flag
-	if i == len(nums)-1 {
-		if sum == target {
-			methods++
+	dp[0] = 1
+	for i := range coins {
+		for j := 0; j <= amount; j++ {
+			if j >= coins[i] {
+				dp[j] += dp[j-coins[i]]
+			}
 		}
-		return
 	}
-	i++
-	dfs(nums, target, i, sum, 1)
-	dfs(nums, target, i, sum, -1)
+	return dp[amount]
+
 }
 
 func main() {
 
-	ans := findTargetSumWays([]int{1, 1, 1, 1, 1}, 3)
+	ans := change(5, []int{1, 2, 5})
 	fmt.Printf("%d", ans)
 }
