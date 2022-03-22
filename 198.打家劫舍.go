@@ -7,7 +7,7 @@ package leetcodego
  */
 
 // @lc code=start
-func rob(nums []int) int {
+func rob1(nums []int) int {
 	if len(nums) == 1 {
 		return nums[0]
 	}
