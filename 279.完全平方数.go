@@ -1,4 +1,4 @@
-package leetcodego279
+package leetcodego
 
 import "math"
 

@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 type State int
@@ -124,36 +123,26 @@ func exchange(nums []int) []int {
 	return nums
 }
 
-func coinChange(coins []int, amount int) int {
+func rob(nums []int) int {
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+	dp[1] = max(nums[0], nums[1])
+	for i := 2; i < len(nums); i++ {
+		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+	}
 
-	dp := make([]int, amount+1)
-	for i := range dp {
-		dp[i] = math.MaxInt32
-	}
-	dp[0] = 0
-	for _, v := range coins {
-		for j := 0; j <= amount; j++ {
-			if j >= v {
-				dp[j] = min(dp[j], dp[j-v]+1)
-			}
-		}
-	}
-	if dp[amount] == math.MaxInt32 {
-		return -1
-	}
-	return dp[amount]
-
+	return dp[len(nums)-1]
 }
 
-func min(x, y int) int {
-	if x < y {
-		return y
+func max(x, y int) int {
+	if x > y {
+		return x
 	}
-	return x
+	return y
 }
 
 func main() {
 
-	ans := coinChange([]int{1, 2, 5}, 11)
+	ans := rob([]int{1, 2, 3, 1})
 	fmt.Printf("%d", ans)
 }

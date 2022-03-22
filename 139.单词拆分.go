@@ -1,4 +1,4 @@
-package leetcodego279
+package leetcodego
 
 /*
  * @lc app=leetcode.cn id=139 lang=golang

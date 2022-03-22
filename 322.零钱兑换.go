@@ -19,7 +19,7 @@ func coinChange(coins []int, amount int) int {
 	for _, v := range coins {
 		for j := 0; j <= amount; j++ {
 			if j >= v {
-				dp[j] = min(dp[j], dp[j-v]+1)
+				dp[j] = min322(dp[j], dp[j-v]+1)
 			}
 		}
 	}
@@ -30,7 +30,7 @@ func coinChange(coins []int, amount int) int {
 
 }
 
-func min(x, y int) int {
+func min322(x, y int) int {
 	if x < y {
 		return x
 	}
