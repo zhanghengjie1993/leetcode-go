@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type State int
 type CharType int
@@ -121,24 +124,36 @@ func exchange(nums []int) []int {
 	return nums
 }
 
-func change(amount int, coins []int) int {
+func coinChange(coins []int, amount int) int {
 
 	dp := make([]int, amount+1)
-
-	dp[0] = 1
-	for i := range coins {
+	for i := range dp {
+		dp[i] = math.MaxInt32
+	}
+	dp[0] = 0
+	for _, v := range coins {
 		for j := 0; j <= amount; j++ {
-			if j >= coins[i] {
-				dp[j] += dp[j-coins[i]]
+			if j >= v {
+				dp[j] = min(dp[j], dp[j-v]+1)
 			}
 		}
+	}
+	if dp[amount] == math.MaxInt32 {
+		return -1
 	}
 	return dp[amount]
 
 }
 
+func min(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
+}
+
 func main() {
 
-	ans := change(5, []int{1, 2, 5})
+	ans := coinChange([]int{1, 2, 5}, 11)
 	fmt.Printf("%d", ans)
 }
