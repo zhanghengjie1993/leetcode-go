@@ -104,45 +104,39 @@ func isNumber(s string) bool {
 	return state == STATE_INTEGER || state == STATE_POINT || state == STATE_FRACTION || state == STATE_EXP_NUMBER || state == STATE_END
 }
 
-func exchange(nums []int) []int {
-	var temp int
-	j := len(nums) - 1
-	for i := 0; i < j; {
-		if nums[i]%2 == 0 && nums[j]%2 != 0 {
-			temp = nums[i]
-			nums[i] = nums[j]
-			nums[j] = temp
-			i++
-			j--
-		} else if nums[i]%2 != 0 {
-			i++
-		} else {
-			j--
+func maxProfit(k int, prices []int) int {
+	if k == 0 || len(prices) == 0 {
+		return 0
+	}
+
+	dp := make([][]int, len(prices))
+	status := make([]int, (2*k+1)*len(prices))
+	for i := range dp {
+		dp[i] = status[:2*k+1]
+		status = status[2*k+1:]
+	}
+	for j := 1; j < 2*k; j += 2 {
+		dp[0][j] = -prices[0]
+	}
+
+	for i := 1; i < len(prices); i++ {
+		for j := 0; j < 2*k; j += 2 {
+			dp[i][j+1] = max(dp[i-1][j+1], dp[i-1][j]-prices[i])
+			dp[i][j+2] = max(dp[i-1][j+2], dp[i-1][j+1]+prices[i])
 		}
 	}
-	return nums
+	return dp[len(prices)-1][2*k]
 }
 
-func rob(nums []int) int {
-	dp := make([]int, len(nums))
-	dp[0] = nums[0]
-	dp[1] = max(nums[0], nums[1])
-	for i := 2; i < len(nums); i++ {
-		dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-
-	return dp[len(nums)-1]
-}
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
+	return b
 }
 
 func main() {
 
-	ans := rob([]int{1, 2, 3, 1})
+	ans := maxProfit(2, []int{3, 2, 6, 5, 0, 3})
 	fmt.Printf("%d", ans)
 }

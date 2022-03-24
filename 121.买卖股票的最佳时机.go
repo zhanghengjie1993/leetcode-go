@@ -7,7 +7,7 @@ package leetcodego
  */
 
 // @lc code=start
-func maxProfit(prices []int) int {
+func maxProfit1(prices []int) int {
 
 	ans := 0
 	dp := 0
