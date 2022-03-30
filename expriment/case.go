@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type State int
 type CharType int
 
@@ -104,39 +100,94 @@ func isNumber(s string) bool {
 	return state == STATE_INTEGER || state == STATE_POINT || state == STATE_FRACTION || state == STATE_EXP_NUMBER || state == STATE_END
 }
 
-func maxProfit(k int, prices []int) int {
-	if k == 0 || len(prices) == 0 {
-		return 0
-	}
-
-	dp := make([][]int, len(prices))
-	status := make([]int, (2*k+1)*len(prices))
-	for i := range dp {
-		dp[i] = status[:2*k+1]
-		status = status[2*k+1:]
-	}
-	for j := 1; j < 2*k; j += 2 {
-		dp[0][j] = -prices[0]
-	}
-
-	for i := 1; i < len(prices); i++ {
-		for j := 0; j < 2*k; j += 2 {
-			dp[i][j+1] = max(dp[i-1][j+1], dp[i-1][j]-prices[i])
-			dp[i][j+2] = max(dp[i-1][j+2], dp[i-1][j+1]+prices[i])
-		}
-	}
-	return dp[len(prices)-1][2*k]
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
+type MyLinkedList struct {
+	Length int
+	Head   *ListNode
+	Tail   *ListNode
+}
+
+func Constructor() MyLinkedList {
+
+	return MyLinkedList{0, nil, nil}
+}
+
+func (this *MyLinkedList) Get(index int) int {
+	if index > this.Length-1 {
+		return -1
 	}
-	return b
+	temp := &ListNode{}
+	temp.Next = this.Head
+	for ; index >= 0; index-- {
+		temp = temp.Next
+	}
+	return temp.Val
+}
+
+func (this *MyLinkedList) AddAtHead(val int) {
+	node := &ListNode{val, nil}
+	node.Next = this.Head
+	this.Head = node
+	this.Length++
+}
+
+func (this *MyLinkedList) AddAtTail(val int) {
+	node := &ListNode{val, nil}
+	if this.Tail != nil {
+		this.Tail.Next = node
+	} else {
+		this.Head.Next = node
+	}
+	this.Tail = node
+	this.Length++
+}
+
+func (this *MyLinkedList) AddAtIndex(index int, val int) {
+	node := &ListNode{val, nil}
+	if index <= 0 {
+		node.Next = this.Head
+		this.Head = node
+		this.Length++
+	} else if index == this.Length {
+		this.Tail.Next = node
+		this.Tail = node
+		this.Length++
+	} else if index < this.Length {
+		cur := &ListNode{0, this.Head}
+		for ; index > 0; index-- {
+			cur = cur.Next
+		}
+		node.Next = cur.Next
+		cur.Next = node
+		this.Length++
+	}
+}
+
+func (this *MyLinkedList) DeleteAtIndex(index int) {
+	if index < this.Length && index >= 0 {
+		dummyHead := &ListNode{0, this.Head}
+		cur := dummyHead
+		for ; index > 0; index-- {
+			cur = cur.Next
+		}
+		cur.Next = cur.Next.Next
+		this.Length--
+	}
 }
 
 func main() {
 
-	ans := maxProfit(2, []int{3, 2, 6, 5, 0, 3})
-	fmt.Printf("%d", ans)
+	linkedList := Constructor()
+	linkedList.AddAtHead(7)
+	linkedList.AddAtHead(2)
+	linkedList.AddAtHead(1)
+	// linkedList.AddAtTail(3)
+	linkedList.AddAtIndex(3, 0) //链表变为1-> 2-> 3
+	linkedList.Get(1)           //返回2
+	linkedList.DeleteAtIndex(1) //现在链表是1-> 3
+	linkedList.Get(1)
 }
