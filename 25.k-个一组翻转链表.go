@@ -14,34 +14,38 @@ package leetcodego
  *     Next *ListNode
  * }
  */
-func reverseKGroup(head *ListNode1, k int) *ListNode1 {
-	n := 0
-	// lHead := head
-	var lTail *ListNode1
-	pre := &ListNode1{0, nil}
-	cur := head
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	hair := &ListNode{Next: head}
+	pre := hair
 
-	for cur != nil {
-		lTail = cur
-		for n < k && cur.Next != nil {
-			nextNode := cur.Next
-			cur.Next = pre
-			pre = cur
-			cur = nextNode
-			n++
+	for head != nil {
+		tail := pre
+		for i := 0; i < k; i++ {
+			tail = tail.Next
+			if tail == nil {
+				return hair.Next
+			}
 		}
-		lTail.Next = cur
-		if n < k {
-
-		}
+		nex := tail.Next
+		head, tail = myReverse(head, tail)
+		pre.Next = head
+		tail.Next = nex
+		pre = tail
+		head = tail.Next
 	}
-	return pre
-
+	return hair.Next
 }
 
-type ListNode1 struct {
-	Val  int
-	Next *ListNode1
+func myReverse(head, tail *ListNode) (*ListNode, *ListNode) {
+	prev := tail.Next
+	p := head
+	for prev != tail {
+		nex := p.Next
+		p.Next = prev
+		prev = p
+		p = nex
+	}
+	return tail, head
 }
 
 // @lc code=end
